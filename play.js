@@ -1,3 +1,6 @@
+let playerScore = 0;
+let computerScore = 0;
+
 function computerPlay() {
     hands =  ["rock", "paper", "scissors"];
 
@@ -7,13 +10,46 @@ function computerPlay() {
 }
 
 function playRound(playerSelection, computerSelection) {
+    const resultDiv = document.querySelector(`.result`);
+    const finalResultDiv = document.querySelector(`.final-result`);
+    finalResultDiv.textContent = "";
+    computerScoreSpan = document.querySelector(`.computer-score`);
+    humanScoreSpan = document.querySelector(`.human-score`);
+
     if (playerSelection.toLowerCase() == computerSelection.toLowerCase()) {
-        console.log("Computer wins");
+        resultDiv.textContent = "Computer wins";
+        computerScore++;
+        computerScoreSpan.textContent = computerScore;
     }
 
     else {
-        console.log("Human wins");
+        resultDiv.textContent = "Human wins";
+        playerScore++;
+        humanScoreSpan.textContent = playerScore;
     }
+
+    if (computerScore >= 5) {
+        finalResultDiv.textContent = "Game over. Computer wins!"
+        playerScore = 0; computerScore = 0;
+        computerScoreSpan.textContent = computerScore;
+        humanScoreSpan.textContent = playerScore;
+    }
+
+    else if (playerScore >= 5) {
+        finalResultDiv.textContent = "Game over. Human wins!"
+        playerScore = 0; computerScore = 0;
+        computerScoreSpan.textContent = computerScore;
+        humanScoreSpan.textContent = playerScore;
+    }
+}
+
+function playUIRound(e) {
+    const playerSelection = e.target.id;
+    const computerSelection = computerPlay();
+
+    playRound(playerSelection,computerSelection);
+
+    // alert("Clicked");
 }
 
 // const playerSelection = "rock";
@@ -31,4 +67,9 @@ const paperButton = document.querySelector("#paper");
 const scissorsButton = document.querySelector("#scissors");
 
 const buttons = Array.from(document.querySelectorAll('button'));
-console.log(buttons)
+buttons.forEach(button => button.addEventListener("click", playUIRound))
+
+
+
+// console.log(buttons);
+
